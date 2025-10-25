@@ -1,5 +1,8 @@
-// 01_Getting_Started.v
-// Placeholder for HDLBits Getting Started
-module getting_started(output wire out);
-  assign out = 1'b0;
+module top_module( output one );
+
+    assign one = 1'b1;
+
 endmodule
+
+// helpful short video for explanation(13min) :)
+// https://www.youtube.com/watch?v=t27AV5XQrGE&list=PL0E9jhuDlj9qxAfV9hFKNQeHLWimarJJm&index=1
