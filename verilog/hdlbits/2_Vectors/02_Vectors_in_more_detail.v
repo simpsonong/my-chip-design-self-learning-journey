@@ -9,5 +9,6 @@ module top_module(
     
 endmodule
 
-// helpful short video for explanation (6:41):)
+// helpful short video for explanation (start from 6:41):)
 // https://www.youtube.com/watch?v=eA4O2BbNW2s&list=PL0E9jhuDlj9qxAfV9hFKNQeHLWimarJJm&index=4
+
