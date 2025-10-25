@@ -5,6 +5,7 @@ module top_module(
     assign out=~(a|b);
 endmodule
 
-// helpful short video for explanation :)
-// https://www.youtube.com/watch?v=NkqrOtGKR-A&list=PL0E9jhuDlj9qxAfV9hFKNQeHLWimarJJm&index=2
+// helpful short video for explanation(start from 3:01) :)
+// https://www.youtube.com/watch?v=INEtYZqtjTo
+
 
