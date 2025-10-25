@@ -18,5 +18,6 @@ assign out_n=~out;
     
 endmodule
 
-// helpful short video for explanation :)
+// helpful short video for explanation(start from 0:38) :)
 // https://www.youtube.com/watch?v=1rUEctIsPlg&list=PL0E9jhuDlj9qxAfV9hFKNQeHLWimarJJm&index=3
+
