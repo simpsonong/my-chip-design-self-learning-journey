@@ -25,5 +25,6 @@ end
     
 endmodule
 
-// helpful short video for explanation (start from 10:45) :)
-// https://www.youtube.com/watch?v=iVqoWHWcOi0&list=PL0E9jhuDlj9qxAfV9hFKNQeHLWimarJJm&index=11
+// helpful short video for explanation (start from 12:25) :)
+// https://www.youtube.com/watch?v=0vtuCkwd-Tc&list=PLoZS1MH9uqWDYCf6fHLchYS2r1bQFcv3d&index=4
+
