@@ -7,5 +7,6 @@ module top_module(
     assign z=c;
 endmodule
 
-// helpful short video for explanation :)
+// helpful short video for explanation (start from 2:48) :)
 // https://www.youtube.com/watch?v=NkqrOtGKR-A&list=PL0E9jhuDlj9qxAfV9hFKNQeHLWimarJJm&index=2
+
