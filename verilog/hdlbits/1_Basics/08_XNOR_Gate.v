@@ -5,5 +5,6 @@ module top_module(
 assign out=~a^b;
 endmodule
 
-// helpful short video for explanation :)
-// https://www.youtube.com/watch?v=PcNcKJvtB10&t=30s
+// helpful short video for explanation(start from 5:18 ) :)
+// https://www.youtube.com/watch?v=INEtYZqtjTo
+
