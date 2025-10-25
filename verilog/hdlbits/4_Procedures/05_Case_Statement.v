@@ -22,6 +22,8 @@ module top_module (
            
                
     end
-
+    
 endmodule
 
+// helpful short video for explanation (start from 0:32) :)
+//https://www.youtube.com/watch?v=7lI5YHF5FZg&list=PL0E9jhuDlj9qxAfV9hFKNQeHLWimarJJm&index=16
