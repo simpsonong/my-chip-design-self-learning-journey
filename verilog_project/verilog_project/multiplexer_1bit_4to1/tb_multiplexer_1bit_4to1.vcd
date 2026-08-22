@@ -1,0 +1,517 @@
+$date
+	Thu Apr 23 04:19:00 2026
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1s
+$end
+$scope module tb_multiplexer_1bit_4to1 $end
+$var wire 1 ! Y $end
+$var parameter 32 " TICKPERIOD $end
+$var reg 1 # A $end
+$var reg 1 $ B $end
+$var reg 1 % C $end
+$var reg 248 & COMMENT [247:0] $end
+$var reg 1 ' D $end
+$var reg 32 ( ERRORS [31:0] $end
+$var reg 2 ) SEL [1:0] $end
+$var reg 1 * TICK $end
+$var reg 32 + VECTORCOUNT [31:0] $end
+$var reg 1 , Y_EXPECTED $end
+$var reg 1 - eof $end
+$var integer 32 . COUNT [31:0] $end
+$var integer 32 / FD [31:0] $end
+$var integer 32 0 i [31:0] $end
+$scope module dut_multiplexer_1bit_4to1 $end
+$var wire 1 # a $end
+$var wire 1 $ b $end
+$var wire 1 % c $end
+$var wire 1 ' d $end
+$var wire 2 1 sel [1:0] $end
+$var reg 1 ! y $end
+$upscope $end
+$scope task OUT_EXP $end
+$upscope $end
+$scope task close $end
+$scope begin $ivl_for_loop0 $end
+$var integer 32 2 j [31:0] $end
+$upscope $end
+$upscope $end
+$scope task coverage_update $end
+$upscope $end
+$scope task display_file $end
+$upscope $end
+$scope task errors_warnings_check $end
+$upscope $end
+$scope task initialize $end
+$upscope $end
+$scope task random_in $end
+$upscope $end
+$scope task scan_file $end
+$upscope $end
+$scope task vectorcount $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+b10100 "
+$end
+#0
+$dumpvars
+b0 2
+b0 1
+b100 0
+b10000000000000000000000000000011 /
+b111 .
+0-
+0,
+b0 +
+0*
+b0 )
+b0 (
+0'
+b1001001010011100100100101010100 &
+0%
+0$
+0#
+0!
+$end
+#10
+b1 +
+1*
+#20
+0*
+#21
+1!
+1,
+1%
+1#
+b101101 &
+#30
+b10 +
+1*
+#40
+0*
+#41
+0!
+0,
+b1 )
+b1 1
+#50
+b11 +
+1*
+#60
+0*
+#61
+1!
+1,
+b10 )
+b10 1
+#70
+b100 +
+1*
+#80
+0*
+#81
+0!
+0,
+b11 )
+b11 1
+#90
+b101 +
+1*
+#100
+0*
+#101
+b0 .
+#110
+b110 +
+1*
+#120
+0*
+#121
+1!
+1'
+1$
+b0 )
+b0 1
+b0 0
+1-
+b11111111111111111111111111111111 .
+#129
+0'
+0#
+b1 )
+b1 1
+b1 0
+#130
+b111 +
+1,
+1*
+#135
+1'
+0%
+b10 0
+#138
+0!
+0'
+1%
+0$
+1#
+b11 0
+#140
+0*
+#142
+1!
+1'
+b0 )
+b0 1
+b100 0
+#144
+0!
+0'
+0%
+0#
+b11 )
+b11 1
+b101 0
+#147
+1!
+1'
+1%
+1$
+1#
+b10 )
+b10 1
+b110 0
+#150
+b1000 +
+1*
+#151
+0#
+b111 0
+#156
+0!
+0%
+0$
+b1000 0
+#160
+1!
+0'
+1$
+1#
+b0 )
+b0 1
+b1001 0
+0*
+#169
+0!
+1'
+1%
+0#
+b1010 0
+#170
+b1001 +
+0,
+1*
+#176
+1!
+0$
+b11 )
+b11 1
+b1011 0
+#180
+0*
+#186
+0'
+1$
+b10 )
+b10 1
+b1100 0
+#189
+1'
+b11 )
+b11 1
+b1101 0
+#190
+b1010 +
+1,
+1*
+#193
+0!
+0'
+0%
+0$
+1#
+b1110 0
+#200
+0*
+#202
+1!
+1'
+b1111 0
+#208
+1$
+b10000 0
+#210
+b1011 +
+1*
+#215
+0!
+0'
+0$
+0#
+b10001 0
+#218
+1!
+1'
+1%
+1$
+b10 )
+b10 1
+b10010 0
+#220
+0*
+#221
+0!
+0'
+b11 )
+b11 1
+b10011 0
+#228
+1'
+0$
+1#
+b1 )
+b1 1
+b10100 0
+#230
+b1100 +
+0,
+1*
+#232
+0%
+0#
+b10101 0
+#237
+0'
+1%
+1$
+b0 )
+b0 1
+b10110 0
+#240
+0*
+#244
+1!
+1'
+0%
+0$
+b11 )
+b11 1
+b10111 0
+#247
+1%
+1#
+b0 )
+b0 1
+b11000 0
+#248
+0!
+0'
+0%
+b1 )
+b1 1
+b11001 0
+#250
+b1101 +
+1*
+#256
+1!
+1%
+1$
+0#
+b10 )
+b10 1
+b11010 0
+#260
+0*
+#264
+0%
+1#
+b0 )
+b0 1
+b11011 0
+#270
+b1110 +
+0!
+0$
+b1 )
+b1 1
+b11100 0
+1*
+#271
+1$
+0#
+b10 )
+b10 1
+b11101 0
+#280
+0*
+#281
+1!
+1%
+b1 )
+b1 1
+b11110 0
+#290
+b1111 +
+0!
+0%
+b10 )
+b10 1
+b11111 0
+1*
+#298
+1!
+1%
+1#
+b100000 0
+#300
+1'
+0%
+0$
+b11 )
+b11 1
+b100001 0
+0*
+#301
+1$
+b1 )
+b1 1
+b100010 0
+#303
+0!
+0$
+0#
+b0 )
+b0 1
+b100011 0
+#306
+0'
+1$
+b10 )
+b10 1
+b100100 0
+#309
+b100101 0
+#310
+b10000 +
+1*
+#314
+0$
+1#
+b11 )
+b11 1
+b100110 0
+#320
+0*
+#323
+1$
+0#
+b10 )
+b10 1
+b100111 0
+#328
+0$
+1#
+b101000 0
+#330
+b10001 +
+1*
+#337
+1!
+1'
+1%
+1$
+0#
+b1 )
+b1 1
+b101001 0
+#340
+0*
+#346
+0'
+1#
+b10 )
+b10 1
+b101010 0
+#349
+1'
+0$
+0#
+b11 )
+b11 1
+b101011 0
+#350
+b10010 +
+1,
+1*
+#353
+0!
+0%
+1#
+b10 )
+b10 1
+b101100 0
+#355
+0'
+1%
+b1 )
+b1 1
+b101101 0
+#356
+0%
+1$
+0#
+b10 )
+b10 1
+b101110 0
+#359
+1!
+1'
+1%
+1#
+b1 )
+b1 1
+b101111 0
+#360
+0*
+#368
+0!
+0'
+0%
+b11 )
+b11 1
+b110000 0
+#370
+b10011 +
+0,
+1*
+#371
+1'
+1%
+0$
+0#
+b0 )
+b0 1
+b110001 0
+#376
+b110010 0
+#380
+0*
+#386
+b100 2

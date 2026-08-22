@@ -1,0 +1,9 @@
+             D_QEXPECTED_QEXPECTED
+INIT         0    X         X
+RESET        0    0         1
+RESET        0    0         1
+SET          1    1         0
+SET          1    1         0
+RESET        0    0         1
+SET          1    1         0
+SET          1    1         0

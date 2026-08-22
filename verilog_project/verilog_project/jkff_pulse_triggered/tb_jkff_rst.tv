@@ -1,0 +1,8 @@
+            J_K_QEXPECTED_QBAREXPECTED
+INIT        0 0     X          X
+SET         1 0     1          0
+REVERSE     1 1     1          0
+REVERSE     1 1     0          1
+NO_CHANGE   0 0     0          1   
+RESET       0 1     0          1        
+NO_CHANGE   0 0     0          1      

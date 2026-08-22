@@ -1,0 +1,348 @@
+`timescale 1ns/100ps
+
+module tb_sr_flip_flop;
+
+//VECTORS FOR DUT
+reg S, R;
+wire Q_gate, Q_data, Q_beh, QBAR_gate, QBAR_data, QBAR_beh;
+
+//VECTORS FOR TESTING
+
+reg TICK;
+integer FD, COUNT;
+reg [8*9-1:0] COMMENT;
+reg [8*9-1:0] COMMENT1;
+reg [8*9-1:0] COMMENT2;
+reg QEXPECTED, QBAREXPECTED;
+reg [31:0] VECTORCOUNT, ERRORS;
+int i;
+reg [31:0] input_coverage0,input_coverage1,input_coverage2,input_coverage3;
+reg eof;
+reg [1:0] prev_SR;
+reg prev_Q;
+reg [31:0] TICKPERIOD_RAND;
+reg TICK_RAND;
+
+//DUT INSTANTIATION
+
+sr_flip_flop_gate dut_sr_flip_flop_gate (.s(S), .r(R), .q(Q_gate), .qbar(QBAR_gate), .clk(TICK), .clk1 (TICK_RAND));
+sr_flip_flop_dataflow dut_sr_flip_flop_dataflow (.s(S), .r(R), .q(Q_data), .qbar(QBAR_data), .clk(TICK), .clk1 (TICK_RAND));
+sr_flip_flop_behavioral dut_sr_flip_flop_behavioral (.s(S), .r(R), .q(Q_beh), .qbar(QBAR_beh), .clk(TICK), .clk1 (TICK_RAND));
+
+
+
+//DUMP EVERYTHING INTO DUMPFILE
+
+initial begin
+
+$dumpfile ("tb_sr_flip_flop.vcd");
+$dumpvars (0, tb_sr_flip_flop);
+
+end
+
+//TICKPERIOD
+
+
+localparam TICKPERIOD = 20;
+
+
+always begin
+# (TICKPERIOD/2) TICK = ~TICK;
+end
+
+
+
+//TASKS
+
+
+task initialize; begin
+
+FD = $fopen ("tb_sr_flip_flop.tv" , "r");
+COUNT = $fscanf (FD, "%s", COMMENT);
+
+COUNT = $fscanf (FD, "%s %b %b %s %s", COMMENT, S, R, COMMENT1, COMMENT2);
+TICK = 0;
+VECTORCOUNT = 0;
+ERRORS = 0;
+input_coverage0 = 0;
+input_coverage1 = 0;
+input_coverage2 = 0;
+input_coverage3 = 0;
+TICKPERIOD_RAND = 0;
+TICK_RAND = 0;
+
+$display ();
+$display ("TEST_START------------------------------------------------------------------------------------------------------------------------");
+$display ();
+$display ("                     | TIME | S | R |  Q_gate  |  Q_data  |  Q_beh  | QBAR_gate | QBAR_data | QEXPECTED | QBAREXPECTED |");
+$display ("----------------------------------------------------------------------------------------------------------------------------------");
+$display ();
+
+end
+endtask
+
+//task 2 scan_file
+
+task scan_file; begin
+
+
+COUNT = $fscanf (FD,"%s %b %b %b %b", COMMENT, S, R, QEXPECTED, QBAREXPECTED);
+eof = COUNT == -1;
+
+end
+endtask
+
+//task 3 random_in
+
+task random_in; begin
+
+TICKPERIOD_RAND = $urandom_range (1,10);
+
+always begin
+# (TICKPERIOD_RAND/2) TICK_RAND = ~TICK_RAND;
+end
+
+
+S =  $urandom %2 ;
+R =  $urandom %2 ;
+
+case ({S,R})
+2'b00: COMMENT = ((prev_SR == 2'b00) || (prev_SR == 2'b11))?"ILLEGAL":"NO_CHANGE";
+2'b01: COMMENT = "SET";
+2'b10: COMMENT = "RESET";
+2'b11: COMMENT = "ILLEGAL";
+endcase
+
+
+# TICKPERIOD_RAND;
+
+if (((prev_SR == 2'b00) || (prev_SR == 2'b11)) && ({S,R} == 2'b00) ) begin
+
+QEXPECTED = 1'bx;
+QBAREXPECTED = 1'bx;
+
+end
+
+
+else begin
+
+case ({S,R})
+  2'b00: begin
+QEXPECTED = prev_Q;
+QBAREXPECTED = ~prev_Q;
+end   
+  2'b01: begin
+QEXPECTED = 1'b0;
+QBAREXPECTED = 1'b1;
+end
+    2'b10: begin
+QEXPECTED = 1'b1;
+QBAREXPECTED = 1'b0;
+end 
+   2'b11: begin
+QEXPECTED = 1'bx;
+QBAREXPECTED = 1'bx;    
+end
+
+endcase
+end
+
+end
+endtask
+
+//task 4 close
+
+task close; begin
+
+$fclose (FD);
+
+$display ();
+$display ("COVERAGE_REPORT");
+$display ("input 00 has been hit %d times",input_coverage0);
+$display ("input 01 has been hit %d times",input_coverage1);
+$display ("input 10 has been hit %d times",input_coverage2);
+$display ("input 11 has been hit %d times",input_coverage3);
+$display ();
+$display ("VECTORCOUNT = %d", VECTORCOUNT);
+$display ("ERRORS = %15d", ERRORS);
+$display ();
+$display ("TEST_END--------------------------------------------------------------------------------------------------------------------------");
+$display ();
+
+$finish;
+
+end
+endtask
+
+
+//task 5 vectorcount
+
+task vectorcount; begin
+
+VECTORCOUNT = VECTORCOUNT + 1;
+
+end
+endtask
+
+
+//task 6 display_file
+
+task display_file; begin
+
+$display ("%10d %9s | %4d | %1b | %1b | %4b     | %4b     | %4b    | %5b     | %5b     | %5b     | %6b       |", VECTORCOUNT, COMMENT, $time, S, R, Q_gate, Q_data, Q_beh, QBAR_gate, QBAR_data, QEXPECTED, QBAREXPECTED);
+ 
+end
+endtask
+
+//task 7 coverage_update
+
+task coverage_update; begin
+
+case ({S,R})
+
+2'b00: input_coverage0 = input_coverage0 + 1;
+2'b01: input_coverage1 = input_coverage1 + 1;
+2'b10: input_coverage2 = input_coverage2 + 1;
+2'b11: input_coverage3 = input_coverage3 + 1;
+
+endcase
+
+end
+endtask
+
+//task 8 errors_check
+
+task errors_check; begin
+
+if (((prev_SR == 2'b00) || (prev_SR == 2'b11)) && ({S,R} == 2'b00) ) begin
+
+$display ("***ERROR: ILLEGAL CONDITION,RACING CONDITION");
+ERRORS = ERRORS + 1;
+
+end
+
+if ({S,R} == 2'b11) begin
+
+$display ("***ERROR: ILLEGAL CONDITION, q = %b and qbar = %b", QEXPECTED, QBAREXPECTED );
+ERRORS = ERRORS + 1;
+
+end
+
+
+
+if (Q_gate !== QEXPECTED) begin
+
+$display ("***ERROR: Q_gate = %b, Q_expected = %b", Q_gate, QEXPECTED);
+ERRORS = ERRORS + 1;
+
+end
+
+if (Q_data !== QEXPECTED) begin
+
+$display ("***ERROR: Q_dataflow = %b, Q_expected = %b", Q_data, QEXPECTED);
+ERRORS = ERRORS + 1;
+
+end
+
+if (Q_beh !== QEXPECTED) begin
+
+$display ("***ERROR: Q_behavioral = %b, Q_expected = %b", Q_beh, QEXPECTED);
+ERRORS = ERRORS + 1;
+
+end
+
+if (QBAR_gate !== QBAREXPECTED) begin
+
+$display ("***ERROR: QBAR_gate = %b, QBAR_expected = %b", QBAR_gate, QBAREXPECTED);
+ERRORS = ERRORS + 1;
+
+end
+
+if (QBAR_data !== QBAREXPECTED) begin
+
+$display ("***ERROR: QBAR_dataflow = %b, QBAR_expected = %b", QBAR_data, QBAREXPECTED);
+ERRORS = ERRORS + 1;
+
+end
+
+
+end
+endtask
+
+
+
+//DRIVE
+
+//1 initialize
+
+initial begin
+
+initialize;
+
+end
+
+//2 scan file on negedge TICK
+
+always @ (negedge TICK) begin
+
+#5;
+prev_SR <= {S,R};
+prev_Q <= QEXPECTED;
+
+scan_file;
+
+if (eof) begin
+
+
+
+for (i = 0; i < 10; i++) begin
+
+
+
+if (R == 1 && S == 2) begin
+
+close;
+
+end
+
+else begin
+
+random_in;
+coverage_update;
+display_file;
+errors_check;
+vectorcount;
+prev_SR <= {S,R};
+prev_Q <= QEXPECTED;
+
+end
+end
+
+close;
+
+end
+
+vectorcount;
+
+end
+
+//3 check file on posedge TICK
+
+always  @ (posedge TICK) begin
+
+#5;
+
+if (!eof) begin
+
+coverage_update;
+display_file;
+errors_check;
+
+
+
+end
+
+end
+
+endmodule
+

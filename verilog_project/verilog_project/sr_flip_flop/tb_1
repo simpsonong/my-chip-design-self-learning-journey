@@ -1,0 +1,233 @@
+`timescale 1ns/100ps
+
+module tb_sr_flip_flop;
+
+// =====================================================
+// DUT SIGNALS
+// =====================================================
+reg  S, R;
+wire Q_gate, Q_data, Q_beh;
+wire QBAR_gate, QBAR_data, QBAR_beh;
+
+// =====================================================
+// TB VARIABLES
+// =====================================================
+reg TICK;
+integer FD, COUNT;
+integer VECTORCOUNT, ERRORS;
+integer gap;
+integer i;
+
+reg [8*12-1:0] COMMENT;
+reg QEXPECTED, QBAREXPECTED;
+reg eof;
+
+reg [1:0] prev_SR;
+reg       prev_Q;
+
+integer input_coverage0,input_coverage1,input_coverage2,input_coverage3;
+
+// =====================================================
+// DUT INSTANTIATION
+// =====================================================
+sr_flip_flop_gate dut_gate (
+    .s(S), .r(R), .q(Q_gate), .qbar(QBAR_gate), .clk(TICK)
+);
+
+sr_flip_flop_dataflow dut_data (
+    .s(S), .r(R), .q(Q_data), .qbar(QBAR_data), .clk(TICK)
+);
+
+sr_flip_flop_behavioral dut_beh (
+    .s(S), .r(R), .q(Q_beh), .qbar(QBAR_beh), .clk(TICK)
+);
+
+// =====================================================
+// DUMP
+// =====================================================
+initial begin
+    $dumpfile("tb_sr_flip_flop.vcd");
+    $dumpvars(0, tb_sr_flip_flop);
+end
+
+// =====================================================
+// CLOCK (FIXED, NEVER RANDOM)
+// =====================================================
+localparam TICKPERIOD = 20;
+
+initial TICK = 0;
+always #(TICKPERIOD/2) TICK = ~TICK;
+
+// =====================================================
+// TASKS
+// =====================================================
+
+// ---------- initialize ----------
+task initialize;
+begin
+    FD = $fopen("tb_sr_flip_flop.tv","r");
+    VECTORCOUNT = 0;
+    ERRORS = 0;
+    eof = 0;
+
+    S = 0; R = 0;
+    prev_SR = 2'b00;
+    prev_Q  = 0;
+
+    input_coverage0 = 0;
+    input_coverage1 = 0;
+    input_coverage2 = 0;
+    input_coverage3 = 0;
+
+    $display();
+    $display("TEST_START------------------------------------------------------------------------------------------------");
+    $display(" COUNT |   TIME | S R | Q_gate Q_data Q_beh | QBAR_gate QBAR_data | QEXP QBAREXP | COMMENT");
+    $display("----------------------------------------------------------------------------------------------------------");
+end
+endtask
+
+// ---------- scan_file ----------
+task scan_file;
+begin
+    COUNT = $fscanf(FD,"%s %b %b %b %b",
+                     COMMENT, S, R, QEXPECTED, QBAREXPECTED);
+    eof = (COUNT == -1);
+end
+endtask
+
+// ---------- random_in ----------
+task random_in;
+begin
+    S = $urandom_range(0,1);
+    R = $urandom_range(0,1);
+
+    case ({S,R})
+        2'b00: COMMENT = "NO_CHANGE";
+        2'b01: COMMENT = "SET";
+        2'b10: COMMENT = "RESET";
+        2'b11: COMMENT = "ILLEGAL";
+    endcase
+
+    if ({S,R} == 2'b00) begin
+        QEXPECTED     = prev_Q;
+        QBAREXPECTED  = ~prev_Q;
+    end
+    else if ({S,R} == 2'b01) begin
+        QEXPECTED     = 1'b1;
+        QBAREXPECTED  = 1'b0;
+    end
+    else if ({S,R} == 2'b10) begin
+        QEXPECTED     = 1'b0;
+        QBAREXPECTED  = 1'b1;
+    end
+    else begin
+        QEXPECTED     = 1'bx;
+        QBAREXPECTED  = 1'bx;
+    end
+end
+endtask
+
+// ---------- coverage ----------
+task coverage_update;
+begin
+    case ({S,R})
+        2'b00: input_coverage0++;
+        2'b01: input_coverage1++;
+        2'b10: input_coverage2++;
+        2'b11: input_coverage3++;
+    endcase
+end
+endtask
+
+// ---------- error check ----------
+task errors_check;
+begin
+    if (QEXPECTED !== 1'bx) begin
+        if (Q_gate !== QEXPECTED) begin
+            $display("***ERROR: Q_gate=%b Qexp=%b", Q_gate, QEXPECTED);
+            ERRORS++;
+        end
+        if (Q_data !== QEXPECTED) begin
+            $display("***ERROR: Q_data=%b Qexp=%b", Q_data, QEXPECTED);
+            ERRORS++;
+        end
+        if (Q_beh !== QEXPECTED) begin
+            $display("***ERROR: Q_beh=%b Qexp=%b", Q_beh, QEXPECTED);
+            ERRORS++;
+        end
+    end
+end
+endtask
+
+// ---------- display ----------
+task display_line;
+begin
+    $display("%5d | %6t | %b %b |   %b      %b      %b  |     %b        %b     |  %b      %b   | %s",
+        VECTORCOUNT, $time,
+        S, R,
+        Q_gate, Q_data, Q_beh,
+        QBAR_gate, QBAR_data,
+        QEXPECTED, QBAREXPECTED,
+        COMMENT
+    );
+end
+endtask
+
+// ---------- close ----------
+task close_tb;
+begin
+    $display();
+    $display("COVERAGE:");
+    $display(" 00=%0d 01=%0d 10=%0d 11=%0d",
+        input_coverage0,input_coverage1,input_coverage2,input_coverage3);
+    $display("VECTORCOUNT=%0d ERRORS=%0d", VECTORCOUNT, ERRORS);
+    $display("TEST_END----------------------------------------------------------------------------------------------");
+    $finish;
+end
+endtask
+
+// =====================================================
+// MAIN DRIVER  (唯一 driver)
+// =====================================================
+initial begin
+    initialize;
+
+    // -------- FILE VECTORS --------
+    while (!eof) begin
+        @(negedge TICK);
+        scan_file;
+        if (eof) break;
+
+        @(posedge TICK);
+        coverage_update;
+        errors_check;
+        display_line;
+
+        prev_SR = {S,R};
+        prev_Q  = Q_beh;
+        VECTORCOUNT++;
+    end
+
+    // -------- RANDOM VECTORS --------
+    repeat (10) begin
+        gap = $urandom_range(1,5);
+
+        // 👉 你要的：随机 gap（真正阻塞）
+        repeat (gap) @(posedge TICK);
+
+        random_in;
+
+        @(posedge TICK);
+        coverage_update;
+        errors_check;
+        display_line;
+
+        prev_SR = {S,R};
+        prev_Q  = Q_beh;
+        VECTORCOUNT++;
+    end
+
+    close_tb;
+end
+
+endmodule

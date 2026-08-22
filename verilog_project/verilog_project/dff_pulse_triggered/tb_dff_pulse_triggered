@@ -1,0 +1,364 @@
+`timescale 1ns/100ps
+
+module tb_d_flip_flop;
+
+//VECTORS FOR DUT
+reg D;
+wire Q_gate, Q_data, Q_beh, QBAR_gate, QBAR_data, QBAR_beh;
+
+//VECTORS FOR TESTING
+
+reg TICK;
+integer FD, COUNT;
+reg [8*9-1:0] COMMENT;
+reg [8*9-1:0] COMMENT1;
+reg [8*9-1:0] COMMENT2;
+reg QEXPECTED, QBAREXPECTED;
+reg [31:0] VECTORCOUNT, ERRORS;
+int i;
+reg [31:0] input_coverage0,input_coverage1;
+reg eof;
+reg prev_D;
+reg prev_QEx;
+reg prev_QExbar;
+
+
+//DUT INSTANTIATION
+
+d_flip_flop_gate dut_d_flip_flop_gate (.d(D), .q(Q_gate), .qbar(QBAR_gate), .clk(TICK));
+d_flip_flop_dataflow dut_d_flip_flop_dataflow (.d(D), .q(Q_data), .qbar(QBAR_data), .clk(TICK));
+d_flip_flop_behavioral dut_d_flip_flop_behavioral (.d(D), .q(Q_beh), .qbar(QBAR_beh), .clk(TICK));
+
+
+
+//DUMP EVERYTHING INTO DUMPFILE
+
+initial begin
+
+$dumpfile ("tb_d_flip_flop.vcd");
+$dumpvars (0, tb_d_flip_flop);
+
+end
+
+//TICKPERIOD
+
+localparam TICKPERIOD = 20;
+
+always begin
+
+#(TICKPERIOD/2) TICK = ~TICK;
+
+end
+
+
+
+//TASKS
+
+//task 1 initialize
+
+task initialize; begin
+
+FD = $fopen ("tb_d_flip_flop.tv" , "r");
+COUNT = $fscanf (FD, "%s", COMMENT);
+
+COUNT = $fscanf (FD, "%s %b %s %s", COMMENT, D, COMMENT1, COMMENT2);
+TICK = 0;
+VECTORCOUNT = 0;
+ERRORS = 0;
+input_coverage0 = 0;
+input_coverage1 = 0;
+eof = 0;
+
+$display ();
+$display ("TEST_START------------------------------------------------------------------------------------------------------------------------");
+$display ();
+$display ("                     | TIME | D |  Q_gate  |  Q_data  |  Q_beh  | QBAR_gate | QBAR_data | QEXPECTED | QBAREXPECTED |");
+$display ("----------------------------------------------------------------------------------------------------------------------------------");
+
+
+
+end
+endtask
+
+
+
+//task 2 scan_file
+
+task scan_file; begin
+
+
+COUNT = $fscanf (FD,"%s %b %b %b", COMMENT, D, QEXPECTED, QBAREXPECTED);
+eof = (COUNT == -1);
+
+end
+endtask
+
+//task 3 random_in
+
+task random_in; begin
+
+D =  $urandom %2 ;
+
+case (D)
+1'b0: COMMENT = "RESET";
+1'b1: COMMENT = "SET";
+
+endcase
+
+#($urandom_range (0.1,10));
+
+end
+endtask
+
+//task 4 QEXP
+
+task QEXP; begin
+
+if (((({prev_QEx,prev_QExbar}) == 2'b00)&& (D == 1'b0))||((({prev_QEx,prev_QExbar}) == 2'b11)&& (D == 1'b0))) begin
+
+QEXPECTED = 1'bx;
+QBAREXPECTED = 1'bx;
+
+end
+
+else if (((({prev_QEx,prev_QExbar}) == 2'b00)&& (D == 1'b1)) || ((({prev_QEx,prev_QExbar}) == 2'b11)&& (D == 1'b1))) begin
+
+QEXPECTED = 1'b1;
+QBAREXPECTED = 1'b1;
+
+end
+
+else begin
+
+case ( D )
+  1'b0: begin
+QEXPECTED = 1'b0;
+QBAREXPECTED = 1'b1;
+end
+  1'b1: begin
+QEXPECTED = 1'b1;
+QBAREXPECTED = 1'b0;
+end
+
+
+endcase
+end
+
+
+
+end
+endtask
+
+
+
+//task 5 close
+
+task close; begin
+
+#10;
+$fclose (FD);
+
+$display ();
+$display ("COVERAGE_REPORT");
+$display ("input 00 has been hit %d times",input_coverage0);
+$display ("input 01 has been hit %d times",input_coverage1);
+$display ();
+$display ("VECTORCOUNT = %d", VECTORCOUNT);
+$display ("ERRORS = %15d", ERRORS);
+$display ();
+$display ("TEST_END--------------------------------------------------------------------------------------------------------------------------");
+$display ();
+
+$finish;
+
+end
+endtask
+
+
+//task 6 vectorcount
+
+task vectorcount; begin
+
+VECTORCOUNT = VECTORCOUNT + 1;
+
+end
+endtask
+
+
+//task 7 display_file
+
+task display_file; begin
+
+$display ("%10d %9s | %4d | %1d | %4d     | %4d     | %4d    | %5d     | %5d     | %5d     | %6d       |", VECTORCOUNT, COMMENT, $time, D, Q_gate, Q_data, Q_beh, QBAR_gate, QBAR_data, QEXPECTED, QBAREXPECTED);
+
+end
+endtask
+
+//task 8 coverage_update
+
+task coverage_update; begin
+
+case ( D )
+
+1'b0: input_coverage0 = input_coverage0 + 1;
+1'b1: input_coverage1 = input_coverage1 + 1;
+
+endcase
+
+end
+endtask
+
+//task 10 errors_check
+
+task errors_check; begin
+
+
+if (((({prev_QEx,prev_QExbar}) == 2'b00)&& (D == 1'b0))||((({prev_QEx,prev_QExbar}) == 2'b11)&& ( D == 1'b0))) begin
+
+$display ("***ERROR: ILLEGAL CONDITION,RACING CONDITION");
+ERRORS = ERRORS + 1;
+
+end
+
+if (((({prev_QEx,prev_QExbar}) == 2'b00)&& ( D == 1'b1)) || ((({prev_QEx,prev_QExbar}) == 2'b11)&& ( D == 1'b1))) begin
+
+$display ("***ERROR: ILLEGAL CONDITION, q = %b and qbar = %b", QEXPECTED, QBAREXPECTED );
+ERRORS = ERRORS + 1;
+
+end
+
+
+
+if (Q_gate !== QEXPECTED) begin
+
+$display ("***ERROR: Q_gate = %b, Q_expected = %b", Q_gate, QEXPECTED);
+ERRORS = ERRORS + 1;
+
+end
+
+if (Q_data !== QEXPECTED) begin
+
+$display ("***ERROR: Q_dataflow = %b, Q_expected = %b", Q_data, QEXPECTED);
+ERRORS = ERRORS + 1;
+
+end
+
+if (Q_beh !== QEXPECTED) begin
+
+$display ("***ERROR: Q_behavioral = %b, Q_expected = %b", Q_beh, QEXPECTED);
+ERRORS = ERRORS + 1;
+
+end
+
+if (QBAR_gate !== QBAREXPECTED) begin
+
+$display ("***ERROR: QBAR_gate = %b, QBAR_expected = %b", QBAR_gate, QBAREXPECTED);
+ERRORS = ERRORS + 1;
+
+end
+
+if (QBAR_data !== QBAREXPECTED) begin
+
+$display ("***ERROR: QBAR_dataflow = %b, QBAR_expected = %b", QBAR_data, QBAREXPECTED);
+ERRORS = ERRORS + 1;
+
+end
+
+if ( D !== prev_D ) begin
+
+$display ("***ERROR: Racing Condition Occur");
+ERRORS = ERRORS + 1;
+
+end
+
+
+end
+endtask
+
+
+
+//DRIVE
+
+//0 initialize
+
+initial begin
+
+initialize;
+
+end
+
+
+//2 scan file on negedge TICK
+
+always @ (negedge TICK) begin
+
+
+#1.2;
+
+if (!eof) begin
+
+
+
+scan_file;
+
+end
+end
+
+
+
+//3 check file on posedge TICK
+
+always  @ (posedge TICK) begin
+
+prev_D = D;
+
+#0.1;
+
+QEXP;
+display_file;
+coverage_update;
+errors_check;
+vectorcount;
+
+#0.1;
+
+prev_QEx = QEXPECTED;
+prev_QExbar = QBAREXPECTED;
+
+
+
+end
+
+
+
+// eof
+
+initial begin
+
+wait (eof);
+
+for (i = 0; i < 10; i++) begin
+
+
+if ( D == 2)
+begin
+
+vectorcount;
+close;
+
+end
+
+else begin
+
+random_in;
+
+end
+end
+
+
+close;
+
+end
+
+
+endmodule

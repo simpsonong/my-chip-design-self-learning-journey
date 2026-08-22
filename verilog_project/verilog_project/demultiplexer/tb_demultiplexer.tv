@@ -1,0 +1,7 @@
+        Y__SEL_AEXPECTED_BEXPECTED_CEXPECTED_DEXPECTED
+INIT    0  00      0         0         0        0
+ -      0  00      0         0         0        0
+ -      1  00      1         0         0        0
+ -      1  01      0         1         0        0
+ -      1  10      0         0         1        0
+ -      1  11      0         0         0        1
