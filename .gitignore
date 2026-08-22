@@ -1,0 +1,15 @@
+# Simulation / build artifacts — not source code
+*.vcd
+*.vvp
+*.out
+*.db_info
+*.sci
+*.qws
+*.rpt
+*.qpf
+*.qsf
+*.summary
+*.smsg
+log.txt
+db/
+incremental_db/

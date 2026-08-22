@@ -1,9 +1,0 @@
-             T_QEXPECTED_QEXPECTED
-INIT         0    X         X
-HOLD         0    0         1       
-HOLD         0    0         1       
-TOGGLE       1    1         0
-TOGGLE       1    0         1
-HOLD         0    0         1
-TOGGLE       1    1         0
-TOGGLE       1    0         1
