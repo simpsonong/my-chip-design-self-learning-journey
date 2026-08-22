@@ -1,0 +1,682 @@
+$date
+	Thu Feb  5 14:28:35 2026
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1s
+$end
+$scope module tb_mux_to_demux $end
+$var wire 1 ! D_OUT $end
+$var wire 1 " C_OUT $end
+$var wire 1 # B_OUT $end
+$var wire 1 $ A_OUT $end
+$var parameter 32 % TICKPERIOD $end
+$var reg 1 & A $end
+$var reg 1 ' A_EXPECTED $end
+$var reg 1 ( B $end
+$var reg 1 ) B_EXPECTED $end
+$var reg 1 * C $end
+$var reg 248 + COMMENT [247:0] $end
+$var reg 1 , C_EXPECTED $end
+$var reg 1 - D $end
+$var reg 1 . D_EXPECTED $end
+$var reg 32 / ERRORS [31:0] $end
+$var reg 2 0 SEL [1:0] $end
+$var reg 1 1 TICK $end
+$var reg 32 2 VECTORCOUNT [31:0] $end
+$var reg 1 3 eof $end
+$var integer 32 4 COUNT [31:0] $end
+$var integer 32 5 FD [31:0] $end
+$var integer 32 6 i [31:0] $end
+$scope module dut_mux_to_demux $end
+$var wire 1 & a $end
+$var wire 1 ( b $end
+$var wire 1 * c $end
+$var wire 1 - d $end
+$var wire 2 7 sel [1:0] $end
+$var wire 1 8 y $end
+$var wire 1 ! d_out $end
+$var wire 1 " c_out $end
+$var wire 1 # b_out $end
+$var wire 1 $ a_out $end
+$scope module dut_demultiplexer $end
+$var wire 2 9 sel [1:0] $end
+$var wire 1 8 y $end
+$var reg 1 $ a $end
+$var reg 1 # b $end
+$var reg 1 " c $end
+$var reg 1 ! d $end
+$upscope $end
+$scope module dut_multiplexer_4to1 $end
+$var wire 1 & a $end
+$var wire 1 ( b $end
+$var wire 1 * c $end
+$var wire 1 - d $end
+$var wire 2 : sel [1:0] $end
+$var reg 1 8 y $end
+$upscope $end
+$upscope $end
+$scope task OUT_EXP $end
+$upscope $end
+$scope task close $end
+$scope begin $ivl_for_loop0 $end
+$var integer 32 ; j [31:0] $end
+$upscope $end
+$upscope $end
+$scope task coverage_update $end
+$upscope $end
+$scope task display_file $end
+$upscope $end
+$scope task errors_warnings_check $end
+$upscope $end
+$scope task initialize $end
+$upscope $end
+$scope task random_in $end
+$upscope $end
+$scope task scan_file $end
+$upscope $end
+$scope task vectorcount $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+b10100 %
+$end
+#0
+$dumpvars
+b0 ;
+b0 :
+b0 9
+08
+b0 7
+b100 6
+b10000000000000000000000000000011 5
+b1010 4
+03
+b0 2
+01
+b0 0
+b0 /
+0.
+0-
+0,
+b1001001010011100100100101010100 +
+0*
+0)
+0(
+0'
+0&
+0$
+0#
+0"
+0!
+$end
+#10
+b1 2
+11
+#20
+01
+#21
+1$
+18
+1'
+1*
+1&
+b101101 +
+#30
+b10 2
+11
+#40
+01
+#41
+0$
+08
+0'
+b1 0
+b1 7
+b1 9
+b1 :
+#50
+b11 2
+11
+#60
+01
+#61
+1"
+18
+1,
+b10 0
+b10 7
+b10 9
+b10 :
+#70
+b100 2
+11
+#80
+01
+#81
+0"
+08
+0,
+b11 0
+b11 7
+b11 9
+b11 :
+#90
+b101 2
+11
+#100
+01
+#101
+b0 4
+#110
+b110 2
+11
+#120
+01
+#121
+1$
+18
+1-
+1(
+b0 0
+b0 7
+b0 9
+b0 :
+b0 6
+13
+b11111111111111111111111111111111 4
+#129
+1#
+0$
+0-
+0&
+b1 0
+b1 7
+b1 9
+b1 :
+b1 6
+#130
+b111 2
+1)
+11
+#135
+1-
+0*
+b10 6
+#138
+0#
+08
+0-
+1*
+0(
+1&
+b11 6
+#140
+01
+#142
+1$
+18
+1-
+b0 0
+b0 7
+b0 9
+b0 :
+b100 6
+#144
+0$
+08
+0-
+0*
+0&
+b11 0
+b11 7
+b11 9
+b11 :
+b101 6
+#147
+1"
+18
+1-
+1*
+1(
+1&
+b10 0
+b10 7
+b10 9
+b10 :
+b110 6
+#150
+b1000 2
+1,
+0)
+11
+#151
+0&
+b111 6
+#156
+0"
+08
+0*
+0(
+b1000 6
+#160
+1$
+18
+0-
+1(
+1&
+b0 0
+b0 7
+b0 9
+b0 :
+b1001 6
+01
+#169
+0$
+08
+1-
+1*
+0&
+b1010 6
+#170
+b1001 2
+0,
+11
+#176
+1!
+18
+0(
+b11 0
+b11 7
+b11 9
+b11 :
+b1011 6
+#180
+01
+#186
+0!
+1"
+0-
+1(
+b10 0
+b10 7
+b10 9
+b10 :
+b1100 6
+#189
+1!
+0"
+1-
+b11 0
+b11 7
+b11 9
+b11 :
+b1101 6
+#190
+b1010 2
+1.
+11
+#193
+0!
+08
+0-
+0*
+0(
+1&
+b1110 6
+#200
+01
+#202
+1!
+18
+1-
+b1111 6
+#208
+1(
+b10000 6
+#210
+b1011 2
+11
+#215
+0!
+08
+0-
+0(
+0&
+b10001 6
+#218
+1"
+18
+1-
+1*
+1(
+b10 0
+b10 7
+b10 9
+b10 :
+b10010 6
+#220
+01
+#221
+0"
+08
+0-
+b11 0
+b11 7
+b11 9
+b11 :
+b10011 6
+#228
+1-
+0(
+1&
+b1 0
+b1 7
+b1 9
+b1 :
+b10100 6
+#230
+b1100 2
+0.
+11
+#232
+0*
+0&
+b10101 6
+#237
+0-
+1*
+1(
+b0 0
+b0 7
+b0 9
+b0 :
+b10110 6
+#240
+01
+#244
+1!
+18
+1-
+0*
+0(
+b11 0
+b11 7
+b11 9
+b11 :
+b10111 6
+#247
+0!
+1$
+1*
+1&
+b0 0
+b0 7
+b0 9
+b0 :
+b11000 6
+#248
+0$
+08
+0-
+0*
+b1 0
+b1 7
+b1 9
+b1 :
+b11001 6
+#250
+b1101 2
+11
+#256
+1"
+18
+1*
+1(
+0&
+b10 0
+b10 7
+b10 9
+b10 :
+b11010 6
+#260
+01
+#264
+0"
+1$
+0*
+1&
+b0 0
+b0 7
+b0 9
+b0 :
+b11011 6
+#270
+b1110 2
+0$
+08
+0(
+b1 0
+b1 7
+b1 9
+b1 :
+b11100 6
+11
+#271
+1(
+0&
+b10 0
+b10 7
+b10 9
+b10 :
+b11101 6
+#280
+01
+#281
+1#
+18
+1*
+b1 0
+b1 7
+b1 9
+b1 :
+b11110 6
+#290
+b1111 2
+0#
+08
+0*
+b10 0
+b10 7
+b10 9
+b10 :
+b11111 6
+11
+#298
+1"
+18
+1*
+1&
+b100000 6
+#300
+1!
+0"
+1-
+0*
+0(
+b11 0
+b11 7
+b11 9
+b11 :
+b100001 6
+01
+#301
+0!
+1#
+1(
+b1 0
+b1 7
+b1 9
+b1 :
+b100010 6
+#303
+0#
+08
+0(
+0&
+b0 0
+b0 7
+b0 9
+b0 :
+b100011 6
+#306
+0-
+1(
+b10 0
+b10 7
+b10 9
+b10 :
+b100100 6
+#309
+b100101 6
+#310
+b10000 2
+11
+#314
+0(
+1&
+b11 0
+b11 7
+b11 9
+b11 :
+b100110 6
+#320
+01
+#323
+1(
+0&
+b10 0
+b10 7
+b10 9
+b10 :
+b100111 6
+#328
+0(
+1&
+b101000 6
+#330
+b10001 2
+11
+#337
+1#
+18
+1-
+1*
+1(
+0&
+b1 0
+b1 7
+b1 9
+b1 :
+b101001 6
+#340
+01
+#346
+1"
+0#
+0-
+1&
+b10 0
+b10 7
+b10 9
+b10 :
+b101010 6
+#349
+1!
+0"
+1-
+0(
+0&
+b11 0
+b11 7
+b11 9
+b11 :
+b101011 6
+#350
+b10010 2
+1.
+11
+#353
+0!
+08
+0*
+1&
+b10 0
+b10 7
+b10 9
+b10 :
+b101100 6
+#355
+0-
+1*
+b1 0
+b1 7
+b1 9
+b1 :
+b101101 6
+#356
+0*
+1(
+0&
+b10 0
+b10 7
+b10 9
+b10 :
+b101110 6
+#359
+1#
+18
+1-
+1*
+1&
+b1 0
+b1 7
+b1 9
+b1 :
+b101111 6
+#360
+01
+#368
+0#
+08
+0-
+0*
+b11 0
+b11 7
+b11 9
+b11 :
+b110000 6
+#370
+b10011 2
+0.
+11
+#371
+1-
+1*
+0(
+0&
+b0 0
+b0 7
+b0 9
+b0 :
+b110001 6
+#376
+b110010 6
+#380
+01
+#386
+b100 ;

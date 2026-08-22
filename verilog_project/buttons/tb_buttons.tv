@@ -1,0 +1,10 @@
+      PRESSED__OUTPRESSEDEXPECTED__OUTLOCKEXPECTED__OUTTOGGLEEXPECTED
+INIT     0             0                 0                 0       
+ -       0             0                 0                 0
+ -       0             0                 0                 0
+ -       0             0                 0                 0
+ -       1             1                 1                 1
+ -       1             1                 0                 1
+ -       0             0                 0                 1
+ -       1             1                 1                 0
+ -       1             1                 0                 0

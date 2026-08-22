@@ -1,0 +1,15 @@
+//1.and                    
+//2.nand
+//3.or
+//4.nor
+//5.xor
+//6.not
+//7.sr_latch
+//8.sr_flip_flop
+//9.jk_flip_flop
+//10.jkff_pulse_triggered
+//11.jkff_posedge_sync_clear
+//12.t_flip_flop
+//13.d_flip_flop
+//14.dff_pulse_triggered
+//15.dff_posedge_sync_enable
